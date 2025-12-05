@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  toronto-transit-rl:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+      - ./checkpoints:/app/checkpoints
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python -m src.viz.app
+
+  # Training service (optional - run separately)
+  trainer:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./checkpoints:/app/checkpoints
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python -m src.training.train --config configs/default.yaml
+    profiles:
+      - training
