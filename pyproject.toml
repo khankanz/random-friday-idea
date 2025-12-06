@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "toronto-transit-rl"
+version = "0.1.0"
+description = "RL agent for designing transit network extensions in Toronto"
+authors = [
+    {name = "Toronto Transit RL Team"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "gymnasium>=0.29.0",
+    "networkx>=3.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "pyyaml>=6.0",
+    "requests>=2.31.0",
+    "python-fasthtml>=0.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+training = [
+    "pufferlib>=0.6.0",
+    "torch>=2.0.0",
+]
+data = [
+    "geopandas>=0.14.0",
+    "osmnx>=1.6.0",
+    "folium>=0.14.0",
+]
+all = [
+    "toronto-transit-rl[dev,training,data]",
+]
+
+[project.scripts]
+toronto-transit-train = "src.training.train:main"
+toronto-transit-eval = "src.training.evaluate:main"
+toronto-transit-viz = "src.viz.app:main"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
